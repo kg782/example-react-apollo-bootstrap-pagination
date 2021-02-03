@@ -15,7 +15,7 @@ function ImageRow({ photo, onSelect }: ImageRowProps) {
       <td>{photo.id}</td>
       <td>{photo.title}</td>
       <td>
-        <Image src={photo.thumbnailUrl} rounded />
+        <Image src={photo.thumbnailUrl} rounded fluid />
       </td>
     </tr>
   );

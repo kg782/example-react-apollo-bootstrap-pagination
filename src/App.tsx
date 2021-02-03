@@ -9,7 +9,10 @@ import Col from 'react-bootstrap/Col';
 import Pagination from 'react-bootstrap/Pagination';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
+import range from 'lodash/fp/range';
 import ImageRow from './components/ImageRow';
+import { LIST_LIMIT } from './configs';
+import PaginationItem from './components/PaginationItem';
 
 export interface Photo {
   id: number;
@@ -59,12 +62,15 @@ function App() {
     variables: {
       q,
       page,
-      limit: 5,
+      limit: LIST_LIMIT,
     },
   });
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => setQ(event.target.value),
-    [setQ]
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQ(event.target.value);
+      setPage(1);
+    },
+    [setQ, setPage]
   );
   const handleSelectPhoto = useCallback(
     (photo: Photo) => setSelectedPhoto(photo),
@@ -73,10 +79,17 @@ function App() {
   const handleModalHide = useCallback(() => setSelectedPhoto(null), [
     setSelectedPhoto,
   ]);
-
+  const handleFirstClick = useCallback(() => setPage(1), [setPage]);
+  const lastPage: number = data?.photos?.meta?.totalCount
+    ? Math.ceil(data?.photos?.meta?.totalCount / LIST_LIMIT)
+    : 0;
+  const handleLastClick = useCallback(() => setPage(lastPage), [
+    setPage,
+    lastPage,
+  ]);
+  const handlePrevClick = useCallback(() => setPage(page - 1), [setPage, page]);
+  const handleNextClick = useCallback(() => setPage(page + 1), [setPage, page]);
   if (error) return <p>Error</p>;
-
-  console.log(data);
 
   return (
     <div>
@@ -100,8 +113,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {data &&
-              data.photos &&
+            {data?.photos?.data &&
               data.photos.data.map((photo) => (
                 <ImageRow
                   key={photo.id}
@@ -112,30 +124,43 @@ function App() {
           </tbody>
         </Table>
         <Row>
-          <Col>
-            <Pagination>
-              <Pagination.First />
-              <Pagination.Prev />
-              <Pagination.Item>{1}</Pagination.Item>
-              <Pagination.Ellipsis />
-
-              <Pagination.Item>{10}</Pagination.Item>
-              <Pagination.Item>{11}</Pagination.Item>
-              <Pagination.Item active>{12}</Pagination.Item>
-              <Pagination.Item>{13}</Pagination.Item>
-              <Pagination.Item disabled>{14}</Pagination.Item>
-
-              <Pagination.Ellipsis />
-              <Pagination.Item>{20}</Pagination.Item>
-              <Pagination.Next />
-              <Pagination.Last />
-            </Pagination>
+          <Col className="clearfix">
+            {data?.photos?.meta?.totalCount ? (
+              <Pagination className="float-right">
+                <Pagination.First
+                  onClick={handleFirstClick}
+                  disabled={page === 1}
+                />
+                <Pagination.Prev
+                  onClick={handlePrevClick}
+                  disabled={page === 1}
+                />
+                {range(
+                  Math.max(1, page - 2),
+                  Math.min(lastPage + 1, page + 3)
+                ).map((p) => (
+                  <PaginationItem
+                    key={p}
+                    page={p}
+                    active={p === page}
+                    onSelect={setPage}
+                  />
+                ))}
+                <Pagination.Next
+                  onClick={handleNextClick}
+                  disabled={page === lastPage}
+                />
+                <Pagination.Last
+                  onClick={handleLastClick}
+                  disabled={page === lastPage}
+                />
+              </Pagination>
+            ) : null}
           </Col>
         </Row>
       </Container>
-      <Modal show={selectedPhoto} onHide={handleModalHide}>
+      <Modal show={!!selectedPhoto} onHide={handleModalHide} animation={false}>
         <Modal.Header closeButton />
-
         <Modal.Body>
           <Image src={selectedPhoto?.url} className="w-100" />
         </Modal.Body>
