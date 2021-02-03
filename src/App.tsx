@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Pagination from 'react-bootstrap/Pagination';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
+import Spinner from 'react-bootstrap/Spinner';
 import range from 'lodash/fp/range';
 import ImageRow from './components/ImageRow';
 import { LIST_LIMIT } from './configs';
@@ -21,7 +22,7 @@ export interface Photo {
   thumbnailUrl: string;
 }
 
-interface PhotosData {
+export interface PhotosData {
   photos: {
     data: Photo[];
     meta: {
@@ -30,13 +31,13 @@ interface PhotosData {
   };
 }
 
-interface PhotosVars {
+export interface PhotosVars {
   q: string;
   page: number;
   limit: number;
 }
 
-const GET_PHOTOS = gql`
+export const GET_PHOTOS_QUERY = gql`
   query Photos($q: String, $page: Int, $limit: Int) {
     photos(
       options: { paginate: { page: $page, limit: $limit }, search: { q: $q } }
@@ -58,13 +59,16 @@ function App() {
   const [q, setQ] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
-  const { error, data } = useQuery<PhotosData, PhotosVars>(GET_PHOTOS, {
-    variables: {
-      q,
-      page,
-      limit: LIST_LIMIT,
-    },
-  });
+  const { loading, error, data } = useQuery<PhotosData, PhotosVars>(
+    GET_PHOTOS_QUERY,
+    {
+      variables: {
+        q,
+        page,
+        limit: LIST_LIMIT,
+      },
+    }
+  );
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setQ(event.target.value);
@@ -89,6 +93,7 @@ function App() {
   ]);
   const handlePrevClick = useCallback(() => setPage(page - 1), [setPage, page]);
   const handleNextClick = useCallback(() => setPage(page + 1), [setPage, page]);
+
   if (error) return <p>Error</p>;
 
   return (
@@ -123,6 +128,15 @@ function App() {
               ))}
           </tbody>
         </Table>
+        {loading && (
+          <Row>
+            <Col>
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col className="clearfix">
             {data?.photos?.meta?.totalCount ? (
