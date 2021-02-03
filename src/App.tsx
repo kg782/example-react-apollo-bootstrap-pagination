@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import './App.css';
 import { useQuery, gql } from '@apollo/client';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
