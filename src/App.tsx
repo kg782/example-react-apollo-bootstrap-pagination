@@ -13,6 +13,7 @@ import range from 'lodash/fp/range';
 import ImageRow from './components/ImageRow';
 import { LIST_LIMIT } from './configs';
 import PaginationItem from './components/PaginationItem';
+import useDebounce from './hooks/useDebounce';
 
 export interface Photo {
   id: number;
@@ -58,17 +59,18 @@ function App() {
   const [q, setQ] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const debouncedQ: string = useDebounce<string>(q, 500);
   const { loading, error, data } = useQuery<PhotosData, PhotosVars>(
     GET_PHOTOS_QUERY,
     {
       variables: {
-        q,
+        q: debouncedQ,
         page,
         limit: LIST_LIMIT,
       },
     }
   );
-  const handleChange = useCallback(
+  const handleQueryChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setQ(event.target.value);
       setPage(1);
@@ -104,7 +106,7 @@ function App() {
               type="text"
               placeholder="Search keywords on title"
               value={q}
-              onChange={handleChange}
+              onChange={handleQueryChange}
             />
           </Form.Group>
         </Form>
