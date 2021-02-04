@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/example-react-apollo-bootstrap-pagination/static/css/main.bfa22019.chunk.css",
-    "main.js": "/example-react-apollo-bootstrap-pagination/static/js/main.143d2c1b.chunk.js",
-    "main.js.map": "/example-react-apollo-bootstrap-pagination/static/js/main.143d2c1b.chunk.js.map",
+    "main.js": "/example-react-apollo-bootstrap-pagination/static/js/main.f32a1a01.chunk.js",
+    "main.js.map": "/example-react-apollo-bootstrap-pagination/static/js/main.f32a1a01.chunk.js.map",
     "runtime-main.js": "/example-react-apollo-bootstrap-pagination/static/js/runtime-main.0f131ef7.js",
     "runtime-main.js.map": "/example-react-apollo-bootstrap-pagination/static/js/runtime-main.0f131ef7.js.map",
     "static/css/2.150d169a.chunk.css": "/example-react-apollo-bootstrap-pagination/static/css/2.150d169a.chunk.css",
-    "static/js/2.6641f469.chunk.js": "/example-react-apollo-bootstrap-pagination/static/js/2.6641f469.chunk.js",
-    "static/js/2.6641f469.chunk.js.map": "/example-react-apollo-bootstrap-pagination/static/js/2.6641f469.chunk.js.map",
+    "static/js/2.7d6064ce.chunk.js": "/example-react-apollo-bootstrap-pagination/static/js/2.7d6064ce.chunk.js",
+    "static/js/2.7d6064ce.chunk.js.map": "/example-react-apollo-bootstrap-pagination/static/js/2.7d6064ce.chunk.js.map",
     "static/js/3.1dd12328.chunk.js": "/example-react-apollo-bootstrap-pagination/static/js/3.1dd12328.chunk.js",
     "static/js/3.1dd12328.chunk.js.map": "/example-react-apollo-bootstrap-pagination/static/js/3.1dd12328.chunk.js.map",
     "index.html": "/example-react-apollo-bootstrap-pagination/index.html",
     "static/css/2.150d169a.chunk.css.map": "/example-react-apollo-bootstrap-pagination/static/css/2.150d169a.chunk.css.map",
     "static/css/main.bfa22019.chunk.css.map": "/example-react-apollo-bootstrap-pagination/static/css/main.bfa22019.chunk.css.map",
-    "static/js/2.6641f469.chunk.js.LICENSE.txt": "/example-react-apollo-bootstrap-pagination/static/js/2.6641f469.chunk.js.LICENSE.txt"
+    "static/js/2.7d6064ce.chunk.js.LICENSE.txt": "/example-react-apollo-bootstrap-pagination/static/js/2.7d6064ce.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.0f131ef7.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.6641f469.chunk.js",
+    "static/js/2.7d6064ce.chunk.js",
     "static/css/main.bfa22019.chunk.css",
-    "static/js/main.143d2c1b.chunk.js"
+    "static/js/main.f32a1a01.chunk.js"
   ]
 }
